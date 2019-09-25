@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env production"
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev-start" : "nodemon bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
