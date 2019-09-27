@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 const certificateSchema=mongoose.Schema({
     usn:String,
-    name:String,
+    fname:String,
+    lname:String,
     year:Number,
     sem:Number,
     projectName:String,

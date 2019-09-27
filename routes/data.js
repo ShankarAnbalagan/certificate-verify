@@ -3,20 +3,20 @@ var router = express.Router();
 var logincheck=require('./../middleware/logincheck');
 var certificate=require('./../models/virtualCertificate');
 
-router.post('/add',logincheck(),function(req,res,next){
+router.post('/add',logincheck(),async function(req,res,next){
     var data=req.body.data;
     var result=new Array();
-
+    
     for (d of data){
-            certificate.create(d,function(err,createdData){
-            if(err) console.log("Data insertion error --> ",err);
-            else{
-                d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
-                console.log(d);
-                result.push(d);
-            }
-        });
-    }
+        await certificate.create(d,function(err,createdData){
+        if(err) console.log("Data insertion error --> ",err);
+        else{
+            d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
+            console.log(d);
+            result.push(d);
+        }
+    });
+}
 
     console.log("done");
     res.send("done");
@@ -40,6 +40,23 @@ router.get('/verify/:id',function(req,res,next){
     else{
         res.status(200).render('notverified');
     }
+});
+
+router.post('/search',logincheck(),function(req,res,next){
+    var fname=req.query.fname;
+    var lname=req.query.lname;
+    var usn=req.query.usn;
+    certificate.find({$or:[{fname},{lname},{usn}]},function(err,docs){
+        if(err) console.log("Search error-->", err);
+        else{
+            if(docs){
+                res.status(200).json({status:'success',data:{message:'Search complete', value:docs}});
+            }
+            else{
+                res.status(422).json({status:'fail', data:{message:'Name not found'}});
+            }
+        }
+    });
 });
 
 
