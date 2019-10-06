@@ -7,19 +7,40 @@ router.post('/add',logincheck(),async function(req,res,next){
     var data=req.body.data;
     var result=new Array();
     
-    for (d of data){
-        await certificate.create(d,function(err,createdData){
-        if(err) console.log("Data insertion error --> ",err);
-        else{
-            d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
-            console.log(d);
-            result.push(d);
-        }
-    });
-}
+    // for (d of data){
+    //         await certificate.create(d,function(err,createdData){
+    //         if(err) console.log("Data insertion error --> ",err);
+    //         else{
+    //             d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
+    //             console.log(d);
+    //             result.push(d);
+    //         }
+    //     });
+    // }
 
-    console.log("done");
-    res.send("done");
+    var promise=data.map(d => {
+        return new Promise((resolve,reject)=>{
+            certificate.create(d,function(err,createdData){
+                if(err) console.log("Data insertion error --> ",err);
+                else{
+                    d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
+                    result.push(d);
+                    resolve();                    
+                }
+            });
+        });
+    });
+
+    Promise.all(promise).then(()=>{        
+        res.status(200).json({
+            status:'success',
+            data:{
+                message:'Data insertion successful',
+                result:result
+            }
+        });
+    }).catch(console.log('Some error'));
+
 });
 
 
