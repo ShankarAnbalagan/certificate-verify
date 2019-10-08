@@ -11,7 +11,9 @@ router.post('/login', function(req, res, next) {
     	if(err) console.log("Login error");
     	else{
       		if(!user)
-        	res.status(422).json({status:"fail",data:{message:"User does not exist"}});
+				res.status(422).json({status:"fail",data:{message:"User does not exist"}});
+			else if(user.isLoggedIn===true)
+				res.status(422).json({status:"fail",data:{message:"User already logged in"}});
       		else{
         		if(user.password===password){
 					var usertoken=randomstring.generate(10);

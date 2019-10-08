@@ -20,7 +20,18 @@ router.post('/add',logincheck(),async function(req,res,next){
 
     var promise=data.map(d => {
         return new Promise((resolve,reject)=>{
-            certificate.create(d,function(err,createdData){
+            certificate.create(
+                {
+                    usn:d['USN'],
+                    fname:d['First Name'],
+                    lname:d['Last Name'],
+                    year:d['Year'],
+                    sem:d['sem'],
+                    projectName:d['Project Name'],
+                    category:d['Category'],
+                    dateOfIssue:d['Date of Issue']
+                },
+                function(err,createdData){
                 if(err) console.log("Data insertion error --> ",err);
                 else{
                     d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
