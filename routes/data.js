@@ -6,6 +6,8 @@ var certificate=require('./../models/virtualCertificate');
 router.post('/add',logincheck(),async function(req,res,next){
     var data=req.body.data;
     var result=new Array();
+    if(typeof(data)==='string')
+        data=JSON.parse(data);
     
     // for (d of data){
     //         await certificate.create(d,function(err,createdData){
