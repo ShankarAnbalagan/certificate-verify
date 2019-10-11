@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt=require('jsonwebtoken');
 var logincheck=require('./../middleware/logincheck');
 var certificate=require('./../models/virtualCertificate');
 
@@ -36,7 +37,8 @@ router.post('/add',logincheck(),async function(req,res,next){
                 function(err,createdData){
                 if(err) console.log("Data insertion error --> ",err);
                 else{
-                    d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
+                    var token=jwt.sign({id:createdData['_id']},process.env.JWT_TOKEN);
+                    d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+token;
                     result.push(d);
                     resolve();                    
                 }
@@ -58,22 +60,28 @@ router.post('/add',logincheck(),async function(req,res,next){
 
 
 router.get('/verify/:id',function(req,res,next){
-    var _id=req.params.id;
-    if(_id.length===24){
-        certificate.findById(_id,function(err,data){
-            if(err) console.log('Certificate verification error-->', err);
-            else{
-                if(data){
-                    res.status(200).render('verified');
+    var _id;
+    try{
+        _id=jwt.verify(req.params.id,process.env.JWT_TOKEN).id;
+        if(_id.length===24){
+            certificate.findById(_id,function(err,data){
+                if(err) console.log('Certificate verification error-->', err);
+                else{
+                    if(data){
+                        res.status(200).render('verified');
+                    }
+                    else
+                    res.status(200).render('notverified');
                 }
-                else
-                res.status(200).render('notverified');
-            }
-        });
+            });
+        }
+        else{
+            res.status(200).render('notverified');
+        }
     }
-    else{
+    catch{
         res.status(200).render('notverified');
-    }
+    }    
 });
 
 router.post('/search',logincheck(),function(req,res,next){

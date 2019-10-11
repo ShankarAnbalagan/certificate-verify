@@ -2,11 +2,11 @@ import urllib as url
 import pandas
 import json
 
-def add_data(path_to_file):
+def add_data(username,password,path_to_file):
     login_url='https://polar-reaches-87686.herokuapp.com/users/login'
     login_data=url.parse.urlencode({
-            "userName":"admin",
-            "password":"root123"
+            "userName":username,
+            "password":password
         }).encode()
     login_response=url.request.urlopen(url=login_url, data=login_data).read().decode('utf-8')
     user_token=(json.loads(login_response))['data']['userToken']
