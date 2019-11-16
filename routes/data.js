@@ -114,7 +114,10 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
         //         result:result
         //     }
         // });
-        res.set({"Content-Disposition":"attachment; filename=verify.txt"});
+        res.setHeader('Content-type', "application/octet-stream");
+
+        res.setHeader('Content-disposition', 'attachment; filename=file.txt');
+        
         res.status(200).send(JSON.stringify(result));
     }).catch(console.log('Some error'));
 });
