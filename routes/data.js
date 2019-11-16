@@ -107,13 +107,15 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
     });
 
     Promise.all(promise).then(()=>{        
-        res.status(200).json({
-            status:'success',
-            data:{
-                message:'Data insertion successful',
-                result:result
-            }
-        });
+        // res.status(200).json({
+        //     status:'success',
+        //     data:{
+        //         message:'Data insertion successful',
+        //         result:result
+        //     }
+        // });
+        res.set({"Content-Disposition":"attachment; filename=verify.txt"});
+        res.status(200).send(JSON.stringify(result));
     }).catch(console.log('Some error'));
 });
 
