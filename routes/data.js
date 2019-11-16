@@ -107,7 +107,13 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
     });
 
     Promise.all(promise).then(()=>{        
-        res.status(200).render("verifylinks",{links: JSON.stringify(result)});
+        res.status(200).json({
+            status:'success',
+            data:{
+                message:'Data insertion successful',
+                result:result
+            }
+        });
     }).catch(console.log('Some error'));
 });
 
