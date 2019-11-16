@@ -107,18 +107,7 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
     });
 
     Promise.all(promise).then(()=>{        
-        // res.status(200).json({
-        //     status:'success',
-        //     data:{
-        //         message:'Data insertion successful',
-        //         result:result
-        //     }
-        // });
-        res.setHeader('Content-type', "text/csv");
-
-        res.setHeader('Content-disposition', 'attachment; filename=file.txt');
-
-        res.status(200).send(JSON.stringify(result));
+        res.status(200).render("verifylinks",{links: JSON.stringify(result)});
     }).catch(console.log('Some error'));
 });
 
