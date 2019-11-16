@@ -3,6 +3,10 @@ var router = express.Router();
 var jwt=require('jsonwebtoken');
 var logincheck=require('./../middleware/logincheck');
 var certificate=require('./../models/virtualCertificate');
+var multer = require('multer');
+
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
 
 router.post('/add',logincheck(),async function(req,res,next){
     var data=req.body.data;
@@ -10,16 +14,6 @@ router.post('/add',logincheck(),async function(req,res,next){
     if(typeof(data)==='string')
         data=JSON.parse(data);
     
-    // for (d of data){
-    //         await certificate.create(d,function(err,createdData){
-    //         if(err) console.log("Data insertion error --> ",err);
-    //         else{
-    //             d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+createdData['_id'];
-    //             console.log(d);
-    //             result.push(d);
-    //         }
-    //     });
-    // }
 
     var promise=data.map(d => {
         return new Promise((resolve,reject)=>{
@@ -59,9 +53,68 @@ router.post('/add',logincheck(),async function(req,res,next){
 });
 
 
-router.post('/add-files',function(req,res,next){
-    console.log(req.body);
-    res.send("asdfasdf");
+router.post('/add-files',upload.single('file'),logincheck(),function(req,res,next){
+    var content=req.file.buffer.toString('utf8');
+
+    var rows=content.split('\r\n');
+
+    var json_data=[];
+    for(var i=1;i<rows.length-1;i++){
+        var values=rows[i].split(',');
+        json_data.push({
+            'USN':values[0],
+            'First Name':values[1],
+            'Last Name':values[2],
+            'Year':values[3],
+            'sem':values[4],
+            'Project Name':values[5],
+            'Category':values[6],
+            'Date of Issue':values[7]
+        }); 
+    }
+    //console.log(json_data);    
+    
+
+    var data=json_data;
+    var result=new Array();
+    if(typeof(data)==='string')
+        data=JSON.parse(data);
+    
+
+    var promise=data.map(d => {
+        return new Promise((resolve,reject)=>{
+            certificate.create(
+                {
+                    usn:d['USN'],
+                    fname:d['First Name'],
+                    lname:d['Last Name'],
+                    year:d['Year'],
+                    sem:d['sem'],
+                    projectName:d['Project Name'],
+                    category:d['Category'],
+                    dateOfIssue:d['Date of Issue']
+                },
+                function(err,createdData){
+                if(err) console.log("Data insertion error --> ",err);
+                else{
+                    var token=jwt.sign({id:createdData['_id']},process.env.JWT_TOKEN);
+                    d['verifyUrl']=process.env.GLOBAL_URL+'/data/verify/'+token;
+                    result.push(d);
+                    resolve();                    
+                }
+            });
+        });
+    });
+
+    Promise.all(promise).then(()=>{        
+        res.status(200).json({
+            status:'success',
+            data:{
+                message:'Data insertion successful',
+                result:result
+            }
+        });
+    }).catch(console.log('Some error'));
 });
 
 
