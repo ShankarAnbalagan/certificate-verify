@@ -59,6 +59,12 @@ router.post('/add',logincheck(),async function(req,res,next){
 });
 
 
+router.post('/add-files',function(req,res,next){
+    console.log(req.body);
+    res.send("asdfasdf");
+});
+
+
 router.get('/verify/:id',function(req,res,next){
     var _id;
     try{
