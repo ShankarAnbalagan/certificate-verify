@@ -127,7 +127,8 @@ router.get('/verify/:id',function(req,res,next){
                 if(err) console.log('Certificate verification error-->', err);
                 else{
                     if(data){
-                        res.status(200).render('verified');
+                        console.log(data);
+                        res.status(200).render('verified',data);
                     }
                     else
                     res.status(200).render('notverified');

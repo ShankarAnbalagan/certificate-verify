@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Verified!</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Not Verified</title>
+    <style>
+        #heading{background-color: rgb(8, 209, 58); width: 100%; height: 200px;}
+        h1{position: relative; left: 40%; top: 30%;  color: white; font-size: 70px;}
+        #message{position: relative; left: 33%; font-size: 50px;}
+        p{font-size: 15px;}
+        #box{position: relative; left: 33%; border: solid black 5px; width: fit-content; padding: 5px;}
+    </style>
   </head>
   <body>
-    <h1>Verified!</h1>
-    <p>This certificate is authentic</p>
+    <div id="heading">
+        <h1>Verified!</h1>
+    </div>   
+    <p id="message">This certificate is authentic</p>
+    <div id="box">
+      <p><b>USN: </b> <%= usn%></p>
+      <p><b>First Name: </b><%= fname%></p>
+      <p><b>Last Name: </b><%= lname%></p>
+      <p><b>Year: </b><%= year%></p>
+      <p><b>Semester: </b><%= sem%></p>
+      <p><b>Project name: </b><%= projectName%></p>
+      <p><b>Category: </b><%= category%></p>
+      <p><b>Date of Issue: </b><%= dateOfIssue%></p>
+    </div>
   </body>
 </html>
