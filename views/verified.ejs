@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Not Verified</title>
+    <title>Verified</title>
     <style>
         #heading{background-color: rgb(8, 209, 58); width: 100%; height: 200px;}
         h1{position: relative; left: 40%; top: 30%;  color: white; font-size: 70px;}
@@ -16,12 +16,27 @@
     </div>   
     <p id="message">This certificate is authentic</p>
     <div id="box">
-      <p><b>USN: </b> <%= usn%></p>
-      <p><b>First Name: </b><%= fname%></p>
-      <p><b>Last Name: </b><%= lname%></p>
-      <p><b>Year: </b><%= year%></p>
+
+      <ul>
+        <li>
+          <p><b>USN: </b> <%= usn1%></p>
+          <p><b>Name: </b><%= name1%></p>
+        </li>
+        <li>
+          <p><b>USN: </b> <%= usn2%></p>
+          <p><b>Name: </b><%= name2%></p>
+        </li>
+        <li>
+          <p><b>USN: </b> <%= usn3%></p>
+          <p><b>Name: </b><%= name3%></p>
+        </li>
+        <li>
+          <p><b>USN: </b> <%= usn4%></p>
+          <p><b>Name: </b><%= name4%></p>
+        </li>
+      </ul>
       <p><b>Semester: </b><%= sem%></p>
-      <p><b>Project name: </b><%= projectName%></p>
+      <p><b>Project Title: </b><%= title%></p>
       <p><b>Category: </b><%= category%></p>
       <p><b>Date of Issue: </b><%= dateOfIssue%></p>
     </div>

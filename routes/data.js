@@ -19,14 +19,19 @@ router.post('/add',logincheck(),async function(req,res,next){
         return new Promise((resolve,reject)=>{
             certificate.create(
                 {
-                    usn:d['USN'],
-                    fname:d['First Name'],
-                    lname:d['Last Name'],
-                    year:d['Year'],
+                    usn1:d['usn1'],
+                    name1:d['name1'],
+                    usn2:d['usn2'],
+                    name2:d['name2'],
+                    usn3:d['usn3'],
+                    name3:d['name3'],
+                    usn4:d['usn4'],
+                    name4:d['name4'],
                     sem:d['sem'],
-                    projectName:d['Project Name'],
-                    category:d['Category'],
-                    dateOfIssue:d['Date of Issue']
+                    branch:d['branch'],
+                    title:d['title'],
+                    category:d['category'],
+                    dateOfIssue:d['date of issue']
                 },
                 function(err,createdData){
                 if(err) console.log("Data insertion error --> ",err);
@@ -62,14 +67,19 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
     for(var i=1;i<rows.length-1;i++){
         var values=rows[i].split(',');
         json_data.push({
-            'USN':values[0],
-            'First Name':values[1],
-            'Last Name':values[2],
-            'Year':values[3],
-            'sem':values[4],
-            'Project Name':values[5],
-            'Category':values[6],
-            'Date of Issue':values[7]
+            'date of issue':values[0],
+            'branch':values[1],
+            'category':values[2],
+            'sem':values[3],
+            'title':values[4],
+            'usn1':values[5],
+            'name1':values[6],
+            'usn2':values[7],
+            'name2':values[8],
+            'usn3':values[9],
+            'name3':values[10],
+            'usn4':values[11],
+            'name4':values[12],
         }); 
     }
     //console.log(json_data);    
@@ -85,14 +95,19 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
         return new Promise((resolve,reject)=>{
             certificate.create(
                 {
-                    usn:d['USN'],
-                    fname:d['First Name'],
-                    lname:d['Last Name'],
-                    year:d['Year'],
+                    usn1:d['usn1'],
+                    name1:d['name1'],
+                    usn2:d['usn2'],
+                    name2:d['name2'],
+                    usn3:d['usn3'],
+                    name3:d['name3'],
+                    usn4:d['usn4'],
+                    name4:d['name4'],
                     sem:d['sem'],
-                    projectName:d['Project Name'],
-                    category:d['Category'],
-                    dateOfIssue:d['Date of Issue']
+                    branch:d['branch'],
+                    title:d['title'],
+                    category:d['category'],
+                    dateOfIssue:d['date of issue']
                 },
                 function(err,createdData){
                 if(err) console.log("Data insertion error --> ",err);

@@ -1,12 +1,17 @@
 var mongoose = require('mongoose');
 
 const certificateSchema=mongoose.Schema({
-    usn:String,
-    fname:String,
-    lname:String,
-    year:Number,
-    sem:Number,
-    projectName:String,
+    name1:String,
+    usn1:String,
+    name2:String,
+    usn2:String,
+    name3:String,
+    usn3:String,
+    name4:String,
+    usn4:String,
+    branch:String,
+    sem:String,
+    title:String,
     category:String,
     dateOfIssue:Date
 });
