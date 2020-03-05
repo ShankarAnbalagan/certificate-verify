@@ -64,7 +64,7 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
     var rows=content.split('\r\n');
 
     var json_data=[];
-    for(var i=1;i<rows.length-1;i++){
+    for(var i=1;i<rows.length;i++){
         var values=rows[i].split(',');
         json_data.push({
             'date of issue':values[0],
@@ -82,7 +82,7 @@ router.post('/add-files',upload.single('file'),logincheck(),function(req,res,nex
             'name4':values[12],
         }); 
     }
-    //console.log(json_data);    
+    console.log(json_data);    
     
 
     var data=json_data;
